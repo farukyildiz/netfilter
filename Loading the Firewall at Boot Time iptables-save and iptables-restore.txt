@@ -1,0 +1,37 @@
+
+ * Rules created with the iptables command are stored only in memory.
+ * If the system is restarted before saving the iptables rule set, all rules are lost.
+ * iptables-save dumps rules to stdout or to a file
+ * iptables-restore loads rules from a file into memory
+
+
+ * How to save iptables rules after restart:
+	
+	* Ubuntu and Debian-based Distributions
+
+		* Install iptables-persistent
+		
+			* apt install iptables-persistent
+			* iptables-persistent automatically loads rules from /etc/iptables/rules.v4
+		
+		* Save iptables rules
+
+			* iptables-save > /etc/iptables/rules.v4
+		
+		* Remove persistent iptables rules
+
+			* Edit /etc/iptables/rules.v4
+
+
+# Dumping iptables rules to file
+iptables-save > firewall
+
+# Restore iptables rules from file
+iptables-restore firewall
+
+# If iptables-save output redirect to /ect/iptables/rules.v4, iptables-persistent loads automatically rules from this file on boot (if iptables-persistent installed)
+iptables-save > /etc/iptables/rules.v4
+reboot
+
+# After reboot
+iptables -vnL

@@ -1,0 +1,4 @@
+# Dropping incoming tcp port 25 traffic between 8:00 and 22:00
+iptables -A INPUT -m recent --name hackers --update --seconds 60 -j DROP
+iptables -A INPUT -p tcp --dport 25 -m time --timestart 8:00 --timestop 22:00 -m recent --name hackers --set -j DROP
+

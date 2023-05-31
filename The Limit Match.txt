@@ -1,0 +1,13 @@
+# Limit incoming ping packets to one per second with a burst of 7
+iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/sec --limit-burst 7 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+# Saniyede 10 tane icmp paketi geldigini varsayalim.
+# Gelen icmp paketlerinin 7 tanesi alinir ve cevap verilir. 
+# Bu durumda burst counter 0 olmustur. 
+# Sonradan gelen ilk saniyede ki 3 tane icmp paketi drop edilir.
+# Daha sonradan gelen her 10 paketin 9 tanesi drop edilir. 1 tanesi accept yapilir.
+# Her saniye gelen 10 icmp paketlerinde arada 3 saniye gelmedigini varsayalim.
+# Bu durumda burst counter her saniye 1 artacagi icin 3 olacaktir.
+# Bir sonra ki gelen 10 icmp paketinin 3 tanesi kabul edilir ve burst counter 0 olur.
+# Geriye kalan 7 tane paket drop edilir.

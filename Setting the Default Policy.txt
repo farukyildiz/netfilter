@@ -1,0 +1,5 @@
+# Set DROP to INPUT chain policy
+iptables -P INPUT DROP
+
+# ACCEPT incoming ssh traffic
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT

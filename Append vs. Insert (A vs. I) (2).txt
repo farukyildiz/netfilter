@@ -1,0 +1,44 @@
+# Drop port 25 incoming traffic
+iptables -A INPUT -p tcp --dport 25 -j DROP
+
+# Drop port 80 incoming traffic
+iptables -A INPUT -p tcp --dport 80 -j DROP
+
+# Drop port udp 69 incoming traffic on first position of chain
+iptables -I INPUT -p udp --dport 69 -j DROP
+
+# Drop port udp 69 incoming traffic on third position of chain
+iptables -I INPUT 3 -p udp --dport 69 -j DROP
+
+# Accept port 80 incoming traffic on first position of chain
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# show rules
+iptables -vnL
+
+# flush INPUT chain
+iptables -F INPUT
+
+# flush all chains
+iptables -F
+
+# flush nat table
+iptables -t nat -F
+
+# ACCEPT ssh traffic outgoing traffic
+iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+
+# will reset packet and byte counters
+iptables -Z
+
+# create MYCHAIN
+iptables -N MYCHAIN
+
+# delete MYCHAIN
+iptables -X MYCHAIN
+
+# set the policy for the forward chain
+iptables -P FORWARD DROP
+
+# Delete second rule of OUTPUT chain
+iptables -D OUTPUT 2

@@ -1,0 +1,5 @@
+ # ACCEPT packets from 22 port with specific ip address
+iptables -A INPUT -p tcp --dport 22 -s 1.2.3.4 -j ACCEPT
+
+ # DROP packets from 22 port
+iptables -A INPUT -p tcp --dport 22 -j DROP

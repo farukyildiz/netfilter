@@ -1,0 +1,43 @@
+# Create ipset
+ipset -N chine hash:net
+ipset create romania hash:net
+
+# It gives an error if trying to create an ipset with a name that already exists
+# Set cannot be created: set with the same name already exists
+# Ignore error
+ipset create romania hash:net -exist
+
+ipset add china 1.0.0.0/8
+ipset -A china 2.0.0.0/8
+ipset -A china 2.0.0.0/8 ========> Element cannot be added to the set: it's already added
+ipset -A china 2.0.0.0/8 -exist
+
+# List of ipset and entries
+ipset list
+ipset -L
+
+# Specific ipset
+ipset -L china
+
+# Delete entry from the ipset
+ipset del china 1.0.0.0/8
+ipset -D china 2.0.0.0/8
+
+# Flush all entries from ipset
+ipset -F china
+
+# Flush all entries from all ipset
+ipset -F
+ipset flush
+
+# Destroy ipset
+ipset destroy china
+ipset -L china ========> The with given name does not exist
+ipset -X romania
+
+# Destroy all ipset
+ipset -X
+ipset list
+
+# Create ipset with maxelem. It does define the maximal number of elements which can be stored in the set, default 65536.
+ipset create myset hash:ip maxelem 4096

@@ -1,0 +1,8 @@
+# DROP all traffic from 00:11:22:33:44:55
+iptables -A INPUT -m mac --mac-source 00:11:22:33:44:55 -j DROP
+
+
+# Permit for 00:11:22:33:44:55 address
+iptables -F FORWARD
+iptables -A FORWARD -m mac --mac-source 00:11:22:33:44:55 -j ACCEPT
+iptables -P FORWARD DROP

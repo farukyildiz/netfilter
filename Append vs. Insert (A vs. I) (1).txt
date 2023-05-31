@@ -1,0 +1,46 @@
+# create script file
+vim drop_ssh.sh
+-------------------------------------------------------------------------------------
+#!/bin/bash
+
+# flash all chain
+iptables -F
+
+# ACCEPT incoming ssh traffic by 192.168.0.20 ip address
+# first rule
+iptables -t filter -A INPUT -p tcp --dport 22 -s 192.168.0.20 -j ACCEPT
+
+# DROP another ssh traffic
+# second rule, because used -A (append)
+iptables -A INPUT -p tcp --dport 22 -j DROP
+-------------------------------------------------------------------------------------
+
+# execute script
+./drop_ssh.sh
+
+# create script file
+vim drop_ssh2.sh
+-------------------------------------------------------------------------------------
+#!/bin/bash
+
+# flash all chain
+iptables -F
+
+# ACCEPT incoming ssh traffic by 192.168.0.20 ip address
+# second rule
+iptables -t filter -I INPUT -p tcp --dport 22 -s 192.168.0.20 -j ACCEPT
+
+# DROP another ssh traffic
+# first rule, because used -I (insert)
+iptables -I INPUT -p tcp --dport 22 -j DROP
+-------------------------------------------------------------------------------------
+
+# execute script
+./drop_ssh2.sh
+
+# ACCCEPT ssh traffic by 192.168.0.20 ip address
+# first rule, becaues -I (insert)
+iptables -I INPUT -p tcp --dport 22 -s 192.168.0.20 -j ACCEPT
+
+# show rules
+iptables -vnL

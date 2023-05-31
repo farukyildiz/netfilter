@@ -1,0 +1,8 @@
+# flushing the Firewall
+iptables -F
+
+# Dropping all incoming tcp packets that have syn set
+iptables -A INPUT -p tcp --syn -j DROP
+
+# Logging outgoing traffic that has syn and ack set
+iptables -A OUTPUT -p tcp --tcp-flash syn,ack,rst,fin syn,ack -j LOG

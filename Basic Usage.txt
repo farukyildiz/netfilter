@@ -1,0 +1,15 @@
+ # Show rules
+iptables -L
+
+# See more information of rules
+iptables -vnL
+
+ # Show rules specific table
+iptables -t nat -L
+
+ # DROP incoming ping packets
+iptables -t filter -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+ # DROP 80 and 443 ports for www.ubuntu.com
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d www.ubuntu.com -j DROP
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.ubuntu.com -j DROP

@@ -1,0 +1,37 @@
+# Filter by port: -p tcp|udp --sport|--dport
+
+# Allow ssh connection only from one ip address
+# Dropping incoming packets to port 22 except if they are coming from 80.0.0.1
+iptables -A INPUT -p tcp --dport 22 -s 80.0.0.1 -j ACCEPT
+# it's possible to specify port using service name (/etc/service)
+# iptables -A INPUT -p tcp --dport ssh -s 80.0.0.1 -j ACCEPT
+
+# Dropping all other ssh traffic
+iptables -A INPUT -p tcp --dport 22 -j DROP
+
+# Allowing DNS queries
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A INPUT -p udp --sport 53 -j ACCEPT
+
+# Filter by protocol: -p
+
+# Dropping incoming GRE traffic
+iptables -A INPUT -p gre -j DROP
+
+# Dropping outgoing ICMP traffic
+iptables -A OUTPUT -p icmp -j DROP
+
+# Filter by interface: -i | -o
+
+# Allowing loopback interface traffic (always recommended)
+iptables -p INPUT -i lo -j ACCEPT
+iptables -p OUTPUT -o lo -j ACCEPT
+
+# Dropping ssh traffic that's coming on eth0 interface (suppose it's external)
+iptables -A INPUT -p tcp --dport 22 -i eth0 -j DROP
+
+# Allowing ssh traffic that's coming on eth1 interface (suppose it's internal)
+iptables -A INPUT -p tcp --dport 22 -i eth1 -j ACCEPT
+
+# Allowing outgoing https traffic via eth1
+iptables -A OUTPUT -p tcp --dport 443 -o eth1 -j ACCEPT

@@ -1,0 +1,2 @@
+# DROP incoming tcp connection to Port 22 with syn flag
+iptables -A INPUT -p tcp --dport 22 --syn -j DROP

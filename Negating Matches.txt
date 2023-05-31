@@ -1,0 +1,2 @@
+# DROP all tcp traffic of coming port 443 except that from 192.168.0.112
+iptables -A INPUT ! -s 192.168.0.112 -p tcp --dport 443 -j DROP

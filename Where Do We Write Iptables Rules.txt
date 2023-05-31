@@ -1,0 +1,25 @@
+# DROP icmp traffic incoming traffic
+iptables -A INPUT -p icmp -j DROP
+
+# open editor and write rules
+vim firewall1.sh
+-------------------------------------------------------------------------------------
+#!/bin/bash
+
+# flush all chain because we do not want dublicate rules when call again this script
+iptables -F
+iptables -t nat -F
+
+# DROP ssh traffic incoming traffic
+iptables -A INPUT -p tcp --dport 22 -j DROP
+
+# DROP http and https outgoing traffic
+iptables -A OUTPUT -p tcp --dport 80 -j DROP
+iptables -A OUTPUT -p tcp --dport 443 -j DROP
+
+# a rule the will perform SNAT, it will translate to the private IP address from the network (10.0.0.0/8) to public address (80.0.0.1)
+iptables -t nat -A POSTROUTING -s 10.0.0.0/8 -o enp0s3 -j SNAT --to-source 80.0.0.1
+-------------------------------------------------------------------------------------
+
+# run script
+./firewall1.sh

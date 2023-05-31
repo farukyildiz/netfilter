@@ -1,0 +1,10 @@
+iptables -A INPUT -s 1.1.1.1 -j DROP
+iptables -A INPUT -s 2.2.2.2 -j DROP
+iptables -A INPUT -s 8.8.8.8 -j DROP
+
+# Alternatively
+ipset -N myset hash:ip
+ipset -A myset 1.1.1.1
+ipset -A myset 2.2.2.2
+ipset -A myset 8.8.8.8
+iptables -A INPUT -m set --match-set myset src -j DROP

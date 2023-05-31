@@ -1,0 +1,18 @@
+# Accept traffic lo interface
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# ACCEPT NEW state packet from 22 port and source 192.168.0.20
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -s 192.168.0.20 -j ACCEPT
+
+# INVALID state packets will be DROP
+iptables -A INPUT -m state --state INVALID -j DROP
+iptables -A OUTPUT -m state --state INVALID -j DROP
+
+# ESTABLISHED and RELATED state packets will be ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+# Set policy to INPUT and OUTPUT
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP

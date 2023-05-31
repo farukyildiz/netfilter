@@ -1,0 +1,7 @@
+# Accepting incoming tcp port 22 packets daily ONLY between 8:00-18:00
+iptables -A INPUT -p tcp --dport 22 -m time --timestart 8:00 --timestop 18:00 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j DROP
+
+# Accepting forwarded traffic (this is the Router) to www.ubuntu.com on workdays between 18:00-08:00
+iptables -A FORWARD -p tcp --dport 443 -d www.ubuntu.com -m time --weekdays Mon,Tue,Wed,Thu,Fri --timestart 18:00 --timestop 8:00 -j ACCEPT
+iptables -A FORWARD -p tcp --dport 443 -d www.ubuntu.com -j DROP

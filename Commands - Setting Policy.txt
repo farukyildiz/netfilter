@@ -1,0 +1,13 @@
+# By default POLICY is ACCEPT on all chains
+
+# If there is no rule that accepts packets and the policy is set to drop, all traffic will be dropped.
+# Change the default policy with caution
+
+# Setting the DROP policy on FORWARD chain
+iptables -P FORWARD DROP
+
+# Setting the ACCEPT policy on OUTPUT chain
+iptables -P OUTPUT ACCEPT
+
+# Setting the DROP policy on INPUT chain
+iptables -P INPUT DROP

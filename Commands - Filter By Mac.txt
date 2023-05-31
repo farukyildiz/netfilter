@@ -1,0 +1,13 @@
+# Defining a variable that contains the allowed MAC addresses
+PERMITTED_MACS="00:23:A3:D3:26:F5 13:23:A3:BB:5:F5 07:A5:C3:B5:13:K3"
+
+# This host can communicate only with other hosts inside our LAN that have
+# a MAC address from this list
+# !!! to be able to communicate outside the LAN (e.g. Internet) the MAC of the router internal interface should also be allowed
+for MAC in $PERMITTED_MACS
+do
+	iptables -A FORWARD -m mac --mac-source $MAC -j ACCEPT
+done
+
+# Set POLICY to DROP on INPUT, all other packets are dropped
+iptables -P INPUT DROP

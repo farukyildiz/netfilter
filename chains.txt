@@ -1,0 +1,5 @@
+ # DROP ICMP packets
+iptables -t filter -A INPUT -p icmp -j DROP
+
+ # BLOCK Destination site
+iptables -t filter -A OUTPUT -d netfilter.org -j DROP

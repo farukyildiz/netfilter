@@ -1,0 +1,11 @@
+# DROP all incoming traffic from 192.168.0.20
+iptables -A INPUT -s 192.168.0.20 -j DROP
+
+# DROP outgoing traffic by destination ip address
+iptables -A OUTPUT -d 8.0.0.0/8 -j DROP
+
+# Deny acces to www.ubuntu.com
+iptables -A OUTPUT -d www.ubuntu.com -j DORP
+
+# ACCEPT all traffic https traffic, 0/0 is means any ip address
+iptables -A OUTPUT -p tcp --dport 443 -d 0/0 -j ACCEPT

@@ -1,0 +1,15 @@
+# DROP policy INPUT and OUTPUT chains
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+
+# ACCEPT traffic for lo interface
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# ACCEPT tcp traffic on INPUT and OUTPUT chains
+iptables -A INPUT -p tcp -j ACCEPT
+iptables -A OUTPUT -p tcp -j ACCEPT
+
+# ACCEPT udp traffic on INPUT and OUTPUT chains
+iptables -A INPUT -p udp -j ACCEPT
+iptables -A OUTPUT -p udp -j ACCEPT
